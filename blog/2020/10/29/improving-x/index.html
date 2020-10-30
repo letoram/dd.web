@@ -190,22 +190,25 @@ that will not get smoothed over regardless of how many 'protocols' you define;
 <i>Wayland is Policy over Mechanism, X11 is Mechanism over Policy</i>. This is
 the real barrier. Not unsubstantiated claims of 'security'. It is a tectonic
 shift and no matter your feelings about that, we won't all be in the same
-country anymore.</p>
+country or continent anymore.</p>
 
-<p>A 'Screenshot Protocol' and similar exercises only serves to distract from the
-fact that the power of all these little tools and hacks from the X11 users
-crowd comes from 'screenshot' being a singular case of 'give me the contents of
-a specific window and all of its children' or 'composite these windows to an
-offscreen buffer and give me their contents'.
+<p>Heralding a 'Screenshot Protocol' and similar exercises as the fix that will
+bridge this gap will only serve to distract from the fact that the power of all
+these little tools and hacks from the crowd of X11 users comes from the
+'screenshot' being just one case of <i>'give me the contents of a specific
+window and all of its children'</i> or <i>'composite these windows to an
+offscreen buffer and send me the results'</i> as the building blocks
+available to be creative with.
 
-<p>The mechanism approach has a huge set of possibilities and open up for
-experimentation and 'works for me' kind of hacks, but gives up control on the
-server side and are much harder to make entirely robust.</p>
+<p>The mechanism approach provides a huge set of possibilities and opens up for
+experimentation and 'works for me' kind of hacks. The downside is that it
+surrenders control on the server side and are much harder to make robust.</p>
 
-<p>The policy aproach will only do what both sides agree to, and that agreement
-has the final say. If you violate this contract, you are to be blamed. However,
-that contract has to be bikeshedded to near state-space exhaustion and
-carefully screened for conflicts as more contracts are added to the pile.</p>
+<p>The policy aproach will only do what both sides agree to, and <i>that
+	agreement has the final say</i>. If you violate this contract, you are to be
+blamed. However, that contract has to be bikeshedded to near state-space
+exhaustion and carefully screened for conflicts as more contracts are added to
+the pile.</p>
 
 <p>The current trajectory is Gnomelanders and Swaylanders and Kwinners and so
 on continuing to lock down singular uses cases and with political gunplay try
@@ -213,19 +216,21 @@ to push that as the one solution that will convince a few more bread crumbs.
 The hand that controls the toolkit will eventually just decide. <i> This will
 erode the strength of the policy contract</i>.</p>
 
-<p>This has led to a substantial amount of dissonance already -- it turns out
-that 'opting to server-side decoration protocol' in the mix had implications
+<p>This has already led to a substantial amount of dissonance -- it turns out
+that the 'opting-server-side decoration protocol' in the mix had implications
 for how to interpret the 'subsurface protocol' and the 'redshift gamma
 protocol' will clash with whatever 'color management protocol' that materialize
-and so on. Nobody uses the same formula for how to position an 'xdg-wm-base'
-popup.</p>
+and so on. To get a feel for how involved such policies become, just <a
+href="https://github.com/wayland-project/wayland-protocols/blob/3a74660e94d85fde24f504cc9d4375d42192e84a/stable/xdg-shell/xdg-shell.xml#L402">
+read the specification</a> and you will see why no implementation arrives at
+the same calculation.</p>
 
-<p>Take the perspective of a client developer chase down the tumbleweed of
-'protocols' drifting around and ask 'what am I supposed to implement and use'?
-To me it looked like like a Picasso painting of ill-fitting- and internaly-
-incompatible ideas. Let this continue a few cycles more and X11 will look clean
-and balanced by comparison. Someone should propose a desktop icon protocol for
-the sake of it, then again, someone probably already has.</p>
+<p>Take the perspective of a client developer chasing after the tumbleweed of
+'protocols' drifting around and try to answer 'what am I supposed to implement
+and use'? To me it looked like like a Picasso painting of ill-fitting- and
+internally conflicted ideas. Let this continue a few cycles more and X11 will
+look clean and balanced by comparison. Someone should propose a desktop icon
+protocol for the sake of it, then again, someone probably already has.</p>
 
 <h2>In Conclusion</h2>
 <p>This approach will force Wayland to demonstrate its worth through the
@@ -234,21 +239,9 @@ rather than by throwing shade on the elderly; or reimplementing the past
 through rebranded and traced outlines from shadows cast by grander window
 managers of yore.</p>
 
-<p>It does not really matter to me or my clients, but it is a compromise I
-would be willing to support. The other option available to me is to allocate a
-headcount or two for a month in order to improve the 'Xarcan' fork of 'Xorg' to
-the point that it will outperform and outfeature Xwayland. That is, at most,
-what it takes. Then I can ignore liftoff/wayland and simply use Xarcan as a
-security and usability layer around X11, but only my cause and perspective will
-benefit.</p>
-
-<p>The proposal above leaves us with three well-defined paths.</p>
+<p>The proposal leaves us with three well-defined paths.</p>
 
 <ul>
-<li>Arcan that tries to push things into whatever is beyond the Twilight Zone
-and answer profound questions like 'what happens if your heartbeat aligns with
-the blink rate of the cursor' (well that's actually be done since forever and
-the RESULTS WOULD SHOCK YOU!, but it still illustrates the point).</li>
 <li>Wayland lets your own solipsist thiefdoms expand towards the horizon,
 while trying to save embedded from the Android expanse.</li>
 <li>People that have invested their hearts and souls into the X ecosystem can
@@ -256,6 +249,13 @@ continue to use their computers without fear of a kernel upgrade leaving them
 with broken graphics, or a switch of display server paradigm leaving them with
 an incompatible mental model of how system graphics work, and perhaps, one day,
 stop whining about Wayland ruining their day and leave the devs alone.</li>
+<li>Arcan lets you play with crazy ideas at a low initial cost. The ones
+that might revolutionise your world or fail miserably. It will continue to
+pushing things towards whatever is beyond the Twilight Zone in order to answer
+profound questions such as 'what happens to productivity if your heartbeat
+aligns with the blink rate of the cursor' (well that's actually be done since
+forever and the RESULTS WOULD SHOCK YOU! - but it still illustrates the
+point).</li>
 </ul>
 
 <p>It might even turn out so well that one of these paths will have a
