@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="theme-color" content="hsl(35, 36%, 95%)">
-  <title>A Neighbourly Solution to the 'X is Deprecated?!' Conondrum</title>
+  <title>A Neighbourly Solution to the 'X is Deprecated?!' Conundrum</title>
 
   
   <meta name="description" content="
   
     
       
-        A Neighbourly Solution to the 'X is Deprecated?!' Conondrum
+        A Neighbourly Solution to the 'X is Deprecated?!' Conundrum
         29 Oct 2020
         
           
@@ -69,7 +69,7 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
   <div class="container main">
     <div class="row">
       <header>
-        <center><span itemprop="name"><h1>A Neighbourly Solution to the 'X is Deprecated?!' Conondrum</h1></span></center>
+        <center><span itemprop="name"><h1>A Neighbourly Solution to the 'X is Deprecated?!' Conundrum</h1></span></center>
         <center><p>29 Oct 2020</p></center>
         <center><span class="small-ornament"><svg viewBox="0 0 290 320">
           <path d="M280.2656 245.3906 Q280.2656 263.25 261.8438 271.9688 Q247.9219 278.7188 227.8125 278.7188 Q235.2656 269.8594 235.2656 256.5 Q235.2656 231.8906 214.4531 217.125 Q196.0312 204.0469 170.2969 204.0469 Q143.5781 204.0469 108.8438 221.0625 L118.9688 231.4688 Q154.4062 267.8906 168.3281 267.8906 Q181.125 267.8906 181.125 255.9375 Q181.125 248.3438 173.5312 243.5625 Q167.0625 239.3438 159.0469 239.3438 Q154.6875 239.3438 148.6406 241.4531 Q158.625 220.0781 173.9531 220.0781 Q184.5 220.0781 191.8828 228.0938 Q199.2656 236.1094 199.2656 246.6562 Q199.2656 265.5 184.3594 277.875 Q170.2969 289.4062 151.0312 289.4062 Q118.6875 289.4062 81.4219 251.0156 L72.1406 241.4531 Q53.5781 249.4688 39.375 249.4688 Q26.4375 249.4688 17.1562 240.9609 Q7.875 232.4531 7.875 219.5156 Q7.875 203.9062 19.125 193.9219 Q29.9531 184.5 45.8438 184.5 Q70.0312 184.5 98.2969 211.6406 Q111.5156 202.2188 127.5469 185.4844 L134.5781 178.1719 Q174.5156 136.6875 204.8906 136.6875 Q231.4688 136.6875 231.4688 155.25 Q231.4688 173.5312 204.3281 177.3281 Q206.4375 172.8281 206.4375 170.1562 Q206.4375 159.3281 193.3594 159.3281 Q175.2188 159.3281 144.2812 189 L137.1094 195.8906 Q165.2344 185.7656 191.25 185.7656 Q221.7656 185.7656 248.3438 200.1094 Q280.2656 217.2656 280.2656 245.3906 ZM61.1719 230.4844 Q44.5781 215.2969 37.2656 215.2969 Q27.9844 215.2969 27.9844 223.4531 Q27.9844 234.4219 42.75 234.4219 Q51.1875 234.4219 61.1719 230.4844z"/>
@@ -82,16 +82,16 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
         <article lang="en">
           
           <p>Recent posts about the state of Xorg and its future has been stirring the
-internets as of late, and as almost always, it is best to stay clear of the
-comments section. The more balanced post is <a href="ajaxnwnk.blogspot.com">On
-Abandoning the X Server</a>.</p>
+internets as of late and, as almost always, it is best to stay clear of the
+comments sections. The more insightful post is <a
+href="https://ajaxnwnk.blogspot.com">On Abandoning the X Server</a>.</p>
 
 <p>There are a few details in it that should be emphasised before we move on.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre
-class="highlight"> <code>"Though the code happens to implement an unfortunate
+class="highlight"><code>Though the code happens to implement an unfortunate
 specification, the code itself is quite well structured, easy to hack on, and
-not far off from being easily embeddable." </code></pre></div></div>
+not far off from being easily embeddable.</code></pre></div></div>
 
 <p>From my own experiences with Xorg internals, I completely agree. A whole lot
 of the code there is noticably better than corresponding paths in certain
@@ -101,26 +101,28 @@ through the tenth iteration of someone parroting what they heard on a forum
 somewhere.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight">
-<code>"So is Xorg abandoned? To the extent that means using it to actually
+<code>So is Xorg abandoned? To the extent that means using it to actually
 control the display, and not just keep X apps running, I'd say yes. But xserver
 is more than xfree86. Xwayland, Xwin, Xephyr, Xvnc, Xvfb: these are projects
 with real value that we should not give up. A better way to say it is that we
-can finally abandon xfree86." </code></pre></div></div>
+can finally abandon xfree86.</code></pre></div></div>
 
-<p>There are some subtleties here that many will miss, as you need to know
-something about the architecture of the xserver. The main thing is to not
-conflate ‘xfree86’ with the entirety of the thing you think of as X – hence why
+<p>There are some nuances here that many will miss as it requires you to know
+something about the architecture of the X server. The main thing is to not
+conflate ‘xfree86’ with the entirety of the thing you think of as X, hence why
 the blog post separates out XFree86-the-project from 'xfree86 the hardware
-driver'.</p>
+driver'. It is unfortunate that the previous incarnation of Xorg was also
+called XFree86. Naming things is hard and all that.</p>
 
 <p>If you go into the Xorg code, which is recommended reading for many who can
-speak the language - you will see that the device-dependent code used to drive
+read the language, you will see that the device-dependent code used to drive
 displays (hw/ in the source tree) has a few backends, mentioned above. Venture
 into the xfree86 server and you will hopefully see why Adam Jackson and others
-deserve the code equivalent of a Purple Heart for their service to your
-desktop. Rightfully throw it into the fires of Mt. Doom. If your still need
-Xorg-xfree86 to be your graphics card driver, you have bigger things to worry
-about, such as plain old hardware bitrot.</p>
+deserve the software engineering equivalent of a Purple Heart for their service
+to your desktop, along with anyone that had to work on ASN-1. Rightfully throw
+Xorg-xfree86 into the fires of Mt. Doom. If your still need Xorg-xfree86 to be
+your graphics card driver, you have bigger things to worry about, such as plain
+old bitrot.</p>
 
 <p>Is there something else? Yes. I’m not going to say <a
 href="https://arcan-fe.com">Arcan</a> – it is very likely that there is only a
@@ -136,74 +138,93 @@ the rather ‘unergonomic’ APIs that are used to get the modern graphics open
 stack up and running. <em>Write a DDX backend that uses it. hw/liftoff!</em></p>
 
 <p>This will get liftoff the liftoff and mileage it needs to become good enough
-for Wayland compositors to use as their default. Thus, it improves the Wayland
-compositor situation that is, politely put, chaotic. Those that don’t care
-about what Wayland tries to achieve can stay with X and not worry about their
-graphics breaking after a kernel update, or well, more than usual. NVIDIA blob
-users can continue down that path and stop bothering Wayland developers yet
-still run their Steam games without submitting to open source ideals.</p>
+for Wayland compositors to use as their default, and a polite, slow migration
+path for NVIDIA to be less contemptible in the unlikely event that they are one
+day struck by some capitalist version of religious insight. Thus, it improves
+the Wayland compositor situation that is, politely put, chaotic. Those that
+don’t care about what Wayland tries to achieve can stay with X and not worry
+about their graphics breaking after a kernel update, or well, more than usual
+-- Linux gotta Linux. NVIDIA blob users can continue down that path and stop
+bothering Wayland developers, yet still run their Steam games without
+submitting to open source ideals. The day GTK5 arrives free from X! rather than
+with XFree! and GtkFileChooser perhaps isn't designed by a 3 year old, the
+situation might have evolved to the point that any further discussion is
+moot.</p>
 
-<p>Next step. Take libarcan-shmif-server and embed as a module in Xorg, fork it
-off even. If you are unaware, this is the IPC system part of Arcan. It is
-fairly trivial to use and was written with developers, not toolkits, in mind.
-It is beyound feature parity with the rest of X. You will only get a fraction
-of the benefits of Arcan as a display server, but without any other
-dependencies or friction - many of the problems that X clients are plagued with
-can be worked around while leaving the X11 protocol to rest. The security
-around these clients will be much tighter and can be gradually tuned to the
-specification of the developer. It lets XFCE, AwesomeWM, Window Maker and the
-tens to hundreds of others WM project continue to improve their ecosystem,
-specialized widgets and other clients rather than burn their resources to
-rewrite themselves. It gives the BSDs a portable way of improving their use of
-the graphics stack without reworking fundamentals they lack the resources for.
-The OpenBSD fork 'Xenocara' can be dropped.</p>
+<p>Next step. This is for the window managers. Take libarcan-shmif-server and
+embed as a module in Xorg, fork it off even. If you are unaware, this is the
+IPC system part of Arcan. Both sides of it are fairly trivial to use and
+written with developers, not toolkits, in mind.
+
+It is beyound feature parity with the rest of X, but has a comparable view on
+capabilities and division of responsibility. You will only get a fraction of
+the benefits of Arcan as a display server, but without other dependencies or
+friction - many of the problems that X clients are plagued with can be worked
+around while leaving the X11 protocol to rest.
+
+The security around these clients will be much tighter and can be gradually
+tuned to the specification of the developer. It lets XFCE, AwesomeWM, Window
+Maker and the tens to hundreds of others WM projects to continue to improve
+their ecosystem, specialized widgets and other tools, rather than to burn
+resources they don't have to rewrite themselves with bugs that won't be
+discovered in time to matter.
+
+It gives the BSDs a portable way of improving their use of the graphics stack
+without reworking fundamentals they lack the resources for. The OpenBSD fork
+'Xenocara' can be dropped.</p>
 
 <p>This way, the heritage is preserved and kept alive with a band aid to live
 out another decade or three, and still work for the marginalized that have
-little interest- or option- in going elsewhere. There are fundamental
-differences that will not get smoothed over regardless of how many 'protocols'
-you define; Wayland is Policy over Mechanism, X11 is Mechanism over Policy. A
-'Screenshot Protocol' only serves to distract from the fact that the power of
-all these little tools and hacks from the X11 users comes from 'screenshot'
-being a singular case of 'give me the contents of a specific window and all its
-children' or 'composite these windows to an offscreen buffer and give me their
-contents'. The later approach has a huge set of possibilities and open up for
-experimentation while sacrificing control on the server side and being harder
-to make robust. The other will only do what both sides agree to, and that
-agreement has the final say.</p>
+little interest- or option- in going elsewhere.
 
-<p>This will also force Wayland to demonstrate its worth from its properties
-alone, rather than by making fun of the elderly and reimplementing the past by
-tracing the outlines of window managers of yore.<p>
+There are fundamental differences that will not get smoothed over regardless of
+how many 'protocols' you define; <i>Wayland is Policy over Mechanism, X11 is
+Mechanism over Policy</i>.
+
+A 'Screenshot Protocol' and similar excercises only serves to distract from the
+fact that the power of all these little tools and hacks from the X11 users
+comes from 'screenshot' being a singular case of 'give me the contents of a
+specific window and all its children' or 'composite these windows to an
+offscreen buffer and give me their contents'. The later approach has a huge set
+of possibilities and open up for experimentation while sacrificing control on
+the server side and being harder to make robust.
+
+The other will only do what both sides agree to, and that agreement has the
+final say. If you detract from that contract, you are to be blamed.</p>
+
+<p>This approach will also force Wayland to demonstrate its worth through the
+virtues of its properties alone, rather than by throwing shade on the elderly
+and reimplementing the past through rebranded and traced outlines from shadows
+cast by window managers of yore.</p>
 
 <p>This solution does not really matter to me or my clients, but it is a
 compromise I would be willing to support. The other option available to me is
-to allocate a headcount or two for a month in order to push the fork of Xorg
-called 'Xarcan' I have since a few years back to the point that it can
-outperform and outfeature Xwayland. That is, at most, what it takes. Then
-I can ignore the liftoff part and simply use it as a security and usability
+to allocate a headcount or two for a month in order to improve the 'Xarcan'
+fork of 'Xorg' that I have since a few years back to the point that it can
+outperform and outfeature Xwayland. That is, at most, what it takes. In that
+case I can ignore liftoff part and simply use it as a security and usability
 layer around X, but only my cause and perspective will benefit.</p>
 
 <p>This leaves us with three well-defined paths.</p>
 
 <p>Arcan that tries to push things into whatever is beyound the Twilight Zone
-and answer profound questions like what happens if your heartbeat aligns with
-the blink rate of the cursor (well that's actually be done and the RESULTS
-WOULD SHOCK YOU!, but it still illustrates the point).</p>.
+and answer profound questions like 'what happens if your heartbeat aligns with
+the blink rate of the cursor' (well that's actually be done since forever and
+the RESULTS WOULD SHOCK YOU!, but it still illustrates the point).</p>
 
 <p>Wayland that lets your own solipsist thiefdoms expand towards the horizon,
-or try and save embedded from the Android expanse.</p>
+while trying to save embedded from the Android expanse.</p>
 
 <p>People that have invested their hearts and souls into the X ecosystem can
 continue to use their computers without fear of a kernel upgrade leaving them
 with broken graphics, or a switch of display server paradigm leaving them with
 an incorrect and incomplete mental model of how system graphics work, and
-perhaps, one day, stop wining about Wayland ruining their day.</p>
+perhaps, one day, stop whining about Wayland ruining their day.</p>
 
 <p>It might even turn out so well that one of these paths will provide a
 fighting chance against the open desktop being further marginalised as a thin
 client in the Azure clouded future; nothing more than a silhouette behind
-unwashed windows.</p>
+unwashed Windows, a virtualized ghost of its former self.</p>
 
         </article>
 	     </div>
