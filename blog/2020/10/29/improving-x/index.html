@@ -132,6 +132,7 @@ care about -- unless you really want to push the boundaries of computing, or
 you are being actively targeted by nefarious individuals; our funding is not
 based on popularity or mass adoption, but rather sticking to the shadows.</p>
 
+<h2>The Compromise</h2>
 <p>So what can we do instead? The current Wayland maintainer has
 <a href="https://github.com/emersion/libliftoff">libliftoff</a> for accessing
 the rather ‘unergonomic’ APIs that are used to get the open, modern, graphics
@@ -157,7 +158,7 @@ embed as a module in Xorg, fork it off even. If you are unaware, this is the
 IPC system part of Arcan. Both sides of it are fairly trivial to use and
 written with developers, not toolkits, in mind.</p>
 
-<p>It is beyound feature parity with the rest of X, but has a comparable view on
+<p>It is beyond feature parity with the rest of X, but has a comparable view on
 capabilities and division of responsibility. You will only get a fraction of
 the benefits of Arcan as a display server, but without other dependencies or
 friction - many of the problems that X clients are plagued with can be worked
@@ -183,18 +184,22 @@ maintain and work with.</p>
 not a replacement, it is a fundamental change of principles. There are strong
 differences that will not get smoothed over regardless of how many 'protocols'
 you define; <i>Wayland is Policy over Mechanism, X11 is Mechanism over
-	Policy</i>.</p>
+Policy</i>. This is the real barrier. Not vapid claims of 'security'.
 
 <p>A 'Screenshot Protocol' and similar excercises only serves to distract from the
 fact that the power of all these little tools and hacks from the X11 users
 crowd comes from 'screenshot' being a singular case of 'give me the contents of
 a specific window and all of its children' or 'composite these windows to an
-offscreen buffer and give me their contents'. The later approach has a huge set
-of possibilities and open up for experimentation while sacrificing control on
-the server side and being harder to make robust.</p>
+offscreen buffer and give me their contents'.
+
+<p>The later approach has a huge set of possibilities and open up for
+experimentation but sacrifices control on the server side and are much harder
+to make entirely robust.</p>
 
 <p>The other will only do what both sides agree to, and that agreement has the
-final say. If you violate that contract, you are to be blamed.</p>
+final say. If you violate that contract, you are to be blamed. However, that
+contract has to be bikeshedded to state exhaustion and carefully scope conflicts
+as more contracts are added.</p>
 
 <p>This approach will also force Wayland to demonstrate its worth through the
 virtues of its properties alone, rather than by throwing shade on the elderly
@@ -205,10 +210,14 @@ cast by window managers of yore.</p>
 compromise I would be willing to support. The other option available to me is
 to allocate a headcount or two for a month in order to improve the 'Xarcan'
 fork of 'Xorg' that I have since a few years back to the point that it can
-outperform and outfeature Xwayland. That is, at most, what it takes. In that
-case I can ignore liftoff part and simply use it as a security and usability
-layer around X, but only my cause and perspective will benefit.</p>
+outperform and outfeature Xwayland. That is, at most, what it takes.</p>
 
+<p>In thatcase I can ignore liftoff part and simply use it as a security and
+usability layer around X, but only my cause and perspective will benefit. If I
+feel overly nostalgic, a meta window manager that translates the scene graph in
+X might be unveiled - letting all the old WMs join in on the Arcan fun.</p>
+
+<h2>In Conclusion</h2>
 <p>This leaves us with three well-defined paths.</p>
 
 <ul>
