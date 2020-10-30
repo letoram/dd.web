@@ -155,45 +155,45 @@ is moot.</p>
 <p>Next steps. This is for the window managers. Take libarcan-shmif-server and
 embed as a module in Xorg, fork it off even. If you are unaware, this is the
 IPC system part of Arcan. Both sides of it are fairly trivial to use and
-written with developers, not toolkits, in mind.
+written with developers, not toolkits, in mind.</p>
 
-It is beyound feature parity with the rest of X, but has a comparable view on
+<p>It is beyound feature parity with the rest of X, but has a comparable view on
 capabilities and division of responsibility. You will only get a fraction of
 the benefits of Arcan as a display server, but without other dependencies or
 friction - many of the problems that X clients are plagued with can be worked
-around while leaving the X11 protocol and its family of extensions to rest.
+around while leaving the X11 protocol and its family of extensions to rest.</p>
 
-The security around these clients will be much tighter and can be gradually
+<p>The security around these clients will be much tighter and can be gradually
 tuned to the specification of the developer. It lets XFCE, AwesomeWM,
 WindowMaker and the tens to hundreds of others WM projects to continue to
 improve their respective ecosystems, specialized widgets and other tools,
 rather than to burn resources they don't have to rewrite themselves with bugs
-that won't be discovered or fixed in time to matter.
+that won't be discovered or fixed in time to matter.</p>
 
-It gives the conservative side of BSDs a portable way of improving their use of
-the graphics stack without reworking fundamentals they care little about. The
-OpenBSD fork 'Xenocara' can be dropped.</p>
+<p>It also gives the conservative side of BSDs a portable way of improving
+their use of the graphics stack without reworking fundamentals they care little
+about. The OpenBSD fork 'Xenocara' can be dropped.</p>
 
 <p>This way, the heritage is preserved and kept alive, with a band aid to live
 out another decade or three. It will still work for the marginalized that have
 little interest- or option- in going elsewhere. It will be less painful to
-maintain and work with.
+maintain and work with.</p>
 
-Wayland only is not an option that will never work across the board. It is not
-a replacement, it is a fundamental change of principles. There are
-strong differences that will not get smoothed over regardless of how many
-'protocols' you define; <i>Wayland is Policy over Mechanism, X11 is Mechanism
-over Policy</i>.
+<p>Wayland only is not an option that will never work across the board. It is
+not a replacement, it is a fundamental change of principles. There are strong
+differences that will not get smoothed over regardless of how many 'protocols'
+you define; <i>Wayland is Policy over Mechanism, X11 is Mechanism over
+	Policy</i>.</p>
 
-A 'Screenshot Protocol' and similar excercises only serves to distract from the
+<p>A 'Screenshot Protocol' and similar excercises only serves to distract from the
 fact that the power of all these little tools and hacks from the X11 users
 crowd comes from 'screenshot' being a singular case of 'give me the contents of
 a specific window and all of its children' or 'composite these windows to an
 offscreen buffer and give me their contents'. The later approach has a huge set
 of possibilities and open up for experimentation while sacrificing control on
-the server side and being harder to make robust.
+the server side and being harder to make robust.</p>
 
-The other will only do what both sides agree to, and that agreement has the
+<p>The other will only do what both sides agree to, and that agreement has the
 final say. If you violate that contract, you are to be blamed.</p>
 
 <p>This approach will also force Wayland to demonstrate its worth through the
@@ -225,7 +225,7 @@ with an incompatible mental model of how system graphics work, and perhaps,
 one day, stop whining about Wayland ruining their day.</li>
 </ul>
 
-<p>It might even turn out so well that one of these paths will provide a
+<p>It might even turn out so well that one of these paths will have a
 fighting chance against the open desktop being further marginalised as a thin
 client in the Azure clouded future; nothing more than a silhouette behind
 unwashed Windows, a virtualized ghost of its former self.</p>
