@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://divergent-desktop.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://divergent-desktop.org/" rel="alternate" type="text/html" /><updated>2020-10-30T18:23:17+01:00</updated><id>https://divergent-desktop.org/feed.xml</id><title type="html">Diverging the Desktop &lt;br /&gt;in search for better human computing interfaces</title><subtitle>This blog covers design, philosophy and reflections from a life long search for increased computing agency. It is the high level counterpart to the technical posts at &lt;a href='https://arcan-fe.com'&gt;Arcan&lt;/a&gt; and the engineering at &lt;a href='https://systemicsoftwaredebugging.com'&gt;Systemic Software Debugging&lt;/a&gt;</subtitle><author><name>Bjorn Stahl</name></author><entry><title type="html">A Neighbourly Solution to the ‘X is Deprecated?!’ Conundrum</title><link href="https://divergent-desktop.org/blog/2020/10/29/improving-x/" rel="alternate" type="text/html" title="A Neighbourly Solution to the ‘X is Deprecated?!’ Conundrum" /><published>2020-10-29T00:00:00+01:00</published><updated>2020-10-29T00:00:00+01:00</updated><id>https://divergent-desktop.org/blog/2020/10/29/improving-x</id><content type="html" xml:base="https://divergent-desktop.org/blog/2020/10/29/improving-x/">&lt;p&gt;Recent posts about the state of Xorg and its future has been stirring the
+internets as of late and, as almost always, it is best to stay clear of the
+comments sections. The more insightful post is &lt;a
+href=&quot;https://ajaxnwnk.blogspot.com/2020/10/on-abandoning-x-server.html&quot;&gt;On Abandoning the X Server&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are a few details in it that should be emphasised before we move on.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre
+class=&quot;highlight&quot;&gt;&lt;blockquote&gt;Though the code happens to implement an unfortunate
+specification, the code itself is quite well structured, easy to hack on, and
+not far off from being easily embeddable.&lt;/blockquote&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From my own experiences with Xorg internals, I agree completely. A whole lot
+of the code there is noticably better than corresponding paths in certain
+Wayland compositors. There is more thought; domain expertise; engineering and
+pure elbow grease behind it than you might have been led to believe -- if you
+have only listened in to the collective moans in various discussion groups.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;
+&lt;blockquote&gt;So is Xorg abandoned? To the extent that means using it to actually
+control the display, and not just keep X apps running, I'd say yes. But xserver
+is more than xfree86. Xwayland, Xwin, Xephyr, Xvnc, Xvfb: these are projects
+with real value that we should not give up. A better way to say it is that we
+can finally abandon xfree86.&lt;/blockquote&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There are some nuances here that many will miss as it requires you to know
+something about the architecture of the X server. The main thing is to not
+conflate ‘xfree86’ with rest of what you think of as X, hence why the blog post
+separates out XFree86-the-project from 'xfree86 the hardware driver'. It is
+unfortunate that the predecessor to Xorg was also called XFree86. Naming
+things is hard and all that.&lt;/p&gt;
+
+&lt;p&gt;If you look at the xorg code, recommended reading for many who can
+understand the language, you will see that the device-dependent code used to
+drive displays (hw/ in the source tree) has a few backends, mentioned above.
+Venture into the hw/xfree86 part and you will hopefully see why Adam Jackson
+and others deserve the software engineering equivalent of a Purple Heart for
+their service to your desktop, possibly alongside anyone that ever had to work
+on ASN.1.&lt;/p&gt;
+
+&lt;p&gt;
+&lt;i&gt;Rightfully throw Xorg-xfree86 into the fires of Mt. Doom. If you
+still need Xorg-xfree86 to be your graphics card driver, you have bigger things
+to worry about, such as plain old bitrot.&lt;/i&gt;&lt;/p&gt;
+
+&lt;p&gt;Is there something else? Yes. I’m not going to say &lt;a
+	href=&quot;https://arcan-fe.com&quot;&gt;Arcan&lt;/a&gt; – it is &lt;i&gt;very&lt;/i&gt; likely that there
+is only a small percentage of the stakeholders we would ever get along with.
+That is fine. The goals and agenda reach much further than many will ever care
+to travel -- unless you really want to push the boundaries of computing, or you
+are actively targeted by nefarious individuals; our funding is not based on
+popularity or mass adoption, but rather sticking to the shadows.&lt;/p&gt;
+
+&lt;h2&gt;The Compromise&lt;/h2&gt;
+&lt;p&gt;So what can we do instead? The current Wayland maintainer has
+&lt;a href=&quot;https://github.com/emersion/libliftoff&quot;&gt;libliftoff&lt;/a&gt; for smoothing
+over the rather ‘unergonomic’ APIs that are used to get the open, modern,
+graphics stack up and running. &lt;em&gt;Write a DDX backend that uses it.
+hw/liftoff!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This will get liftoff the lift-off and mileage it needs to become good
+enough for Wayland compositors to use as their default, and as a slightly more
+polite migration path in order for NVIDIA to be less contemptible in the
+unlikely event that they are one day struck by some capitalist version of
+religious insight. Thus, it improves parts of the Wayland compositor situation
+that is, politely put, chaotic.&lt;/p&gt;
+
+&lt;p&gt;Those that don’t care about what Wayland tries to achieve can stay with X and
+not worry about their graphics breaking after a kernel update, or well, more
+than usual -- Linux gotta Linux. NVIDIA blob users can continue down that path
+and stop bothering Wayland developers, yet still run their Steam games without
+submitting to open source ideals.&lt;/p&gt;
+
+&lt;p&gt;Next steps. This is for the window managers. Take libarcan-shmif-server and
+embed as a module in Xorg, fork it off even. If you are unaware, this is the
+IPC system part of Arcan. Both the server and the client sides of it are fairly
+trivial to use and are written with developers, not toolkits, in mind.&lt;/p&gt;
+
+&lt;p&gt;It is beyond feature parity with the rest of X, but has a comparable view on
+capabilities and division of responsibility. You will only get a fraction of
+the benefits of Arcan as a display server, but without other dependencies or
+friction - many of the problems that X clients are plagued with can be worked
+around while leaving the X11 protocol and its family of extensions to rest.
+Hacks relying on facilities like uinput can be put down.&lt;/p&gt;
+
+&lt;p&gt;The security around these clients will be much tighter and they can be
+gradually tuned to the specification of the developer. It lets XFCE, AwesomeWM,
+WindowMaker and the tens to hundreds of others WM projects to continue to
+improve their respective ecosystems, specialized widgets and other tools,
+rather than to burn resources they don't have to rewrite themselves with bugs
+that won't be discovered or fixed in time to matter.&lt;/p&gt;
+
+&lt;p&gt;It also gives the conservative side of BSDs a portable way of improving
+their use of the graphics stack without reworking fundamentals they care little
+about. The OpenBSD fork 'Xenocara' can be dropped.&lt;/p&gt;
+
+&lt;p&gt;This way, the heritage is preserved and kept alive, with a band aid to live
+out another decade or three. It will still work for the marginalized that have
+little interest- or option- in going elsewhere. It will be less painful to
+maintain and work with.&lt;/p&gt;
+
+&lt;h2&gt;The Reality&lt;/h2&gt;
+&lt;p&gt;Wayland only is not an option that will ever work across the board. It is
+not a replacement, it is a fundamental change of principles. Stop trying to
+market it as some kind of inevitable transition. There are strong differences
+that will not get smoothed over regardless of how many 'protocols' you define;
+&lt;i&gt;Wayland is Policy over Mechanism, X11 is Mechanism over Policy&lt;/i&gt;. This is
+the real barrier. Not unsubstantiated claims of 'security'. It is a tectonic
+shift and no matter your feelings about that, we won't all be in the same
+country or continent anymore.&lt;/p&gt;
+
+&lt;p&gt;Heralding a 'Screenshot Protocol' and similar exercises as the fix that will
+bridge this gap will only serve to distract from the fact that the power of all
+these little tools and hacks from the crowd of X11 users comes from the
+'screenshot' being just one case of &lt;i&gt;'give me the contents of a specific
+window and all of its children'&lt;/i&gt; or &lt;i&gt;'composite these windows to an
+offscreen buffer and send me the results'&lt;/i&gt; as the building blocks
+available to be creative with.
+
+&lt;p&gt;The mechanism approach provides a huge set of possibilities and opens up for
+experimentation and 'works for me' kind of hacks. The downside is that it
+surrenders control on the server side and are much harder to make robust.&lt;/p&gt;
+
+&lt;p&gt;The policy aproach will only do what both sides agree to, and &lt;i&gt;that
+	agreement has the final say&lt;/i&gt;. If you violate this contract, you are to be
+blamed. However, that contract has to be bikeshedded to near state-space
+exhaustion and carefully screened for conflicts as more contracts are added to
+the pile.&lt;/p&gt;
+
+&lt;p&gt;The current trajectory is Gnomelanders and Swaylanders and Kwinners and so
+on continuing to lock down singular uses cases and with political gunplay try
+to push that as the one solution that will convince a few more bread crumbs.
+The hand that controls the toolkit will eventually just decide. &lt;i&gt; This will
+erode the strength of the policy contract&lt;/i&gt;.&lt;/p&gt;
+
+&lt;p&gt;This has already led to a substantial amount of dissonance -- it turns out
+that the 'opting-server-side decoration protocol' in the mix had implications
+for how to interpret the 'subsurface protocol' and the 'redshift gamma
+protocol' will clash with whatever 'color management protocol' that materialize
+and so on. To get a feel for how involved such policies become, just &lt;a
+href=&quot;https://github.com/wayland-project/wayland-protocols/blob/3a74660e94d85fde24f504cc9d4375d42192e84a/stable/xdg-shell/xdg-shell.xml#L402&quot;&gt;
+read the specification&lt;/a&gt; and you will see why no implementation arrives at
+the same calculation.&lt;/p&gt;
+
+&lt;p&gt;Take the perspective of a client developer chasing after the tumbleweed of
+'protocols' drifting around and try to answer 'what am I supposed to implement
+and use'? To me it looked like like a Picasso painting of ill-fitting- and
+internally conflicted ideas. Let this continue a few cycles more and X11 will
+look clean and balanced by comparison. Someone should propose a desktop icon
+protocol for the sake of it, then again, someone probably already has.&lt;/p&gt;
+
+&lt;h2&gt;In Conclusion&lt;/h2&gt;
+&lt;p&gt;This approach will force Wayland to demonstrate its worth through the
+virtues of its properties alone or by inventing actually compelling features
+rather than by throwing shade on the elderly; or reimplementing the past
+through rebranded and traced outlines from shadows cast by grander window
+managers of yore.&lt;/p&gt;
+
+&lt;p&gt;The proposal leaves us with three well-defined paths.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Wayland lets your own solipsist thiefdoms expand towards the horizon,
+while trying to save embedded from the Android expanse.&lt;/li&gt;
+&lt;li&gt;People that have invested their hearts and souls into the X ecosystem can
+continue to use their computers without fear of a kernel upgrade leaving them
+with broken graphics, or a switch of display server paradigm leaving them with
+an incompatible mental model of how system graphics work, and perhaps, one day,
+stop whining about Wayland ruining their day and leave the devs alone.&lt;/li&gt;
+&lt;li&gt;Arcan lets you play with crazy ideas at a low initial cost. The ones
+that might revolutionise your world or fail miserably. It will continue to
+pushing things towards whatever is beyond the Twilight Zone in order to answer
+profound questions such as 'what happens to productivity if your heartbeat
+aligns with the blink rate of the cursor' (well that's actually be done since
+forever and the RESULTS WOULD SHOCK YOU! - but it still illustrates the
+point).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It might even turn out so well that one of these paths will have a
+fighting chance against the open desktop being further marginalised as a thin
+client in the Azure clouded future; nothing more than a silhouette behind
+unwashed Windows, a virtualized ghost of its former self.&lt;/p&gt;</content><author><name>Bjorn Stahl</name></author><summary type="html">Recent posts about the state of Xorg and its future has been stirring the internets as of late and, as almost always, it is best to stay clear of the comments sections. The more insightful post is On Abandoning the X Server.</summary></entry><entry><title type="html">12 Principles for a Diverging Desktop Future</title><link href="https://divergent-desktop.org/blog/2020/08/10/principles-overview/" rel="alternate" type="text/html" title="12 Principles for a Diverging Desktop Future" /><published>2020-08-10T00:00:00+02:00</published><updated>2020-08-10T00:00:00+02:00</updated><id>https://divergent-desktop.org/blog/2020/08/10/principles-overview</id><content type="html" xml:base="https://divergent-desktop.org/blog/2020/08/10/principles-overview/">&lt;p&gt;This post is an overview of the guiding principles driving much of the
+work behind the main parts of the &lt;a href=&quot;https://arcan-fe.com&quot;&gt;Arcan Project&lt;/a&gt;. For
+those unaware, Arcan is presented as something as uncommon as a ‘desktop
+engine’. The grand claim is that modifying and understanding the entirety of
+your desktop should be ‘patching scripts’ level easy if we rework current
+popular abstractions and adjust the division of labour.&lt;/p&gt;
+
+&lt;p&gt;The principles themselves link together to tell a large chunk of the vision of
+the ‘divergent desktop’; a story that has been slowly getting its shape over
+many years, greatly influenced by a number of publicly documented experiments
+as well as seminal works such as Von Neumann’s “The Computer and the Brain”,
+Norbert Weiner’s “The Human use of Human Beings”, Ian Hacking on “Representing
+and Intervening”, Jaron Lanier’s trilogy on what the future may hold in store,
+as well as the nowadays less digestible amalgamation of +Fravia’s Search Lores.&lt;/p&gt;
+
+&lt;p&gt;The overview is quite a long read in its own right, and full versions of each
+principle will be added as individual articles over time – If the contents in
+the sections here comes off as a bit dense and hard to ingest, fret not! They
+are more teasers or appetisers, the full course meal will have better pacing
+and technical depth.&lt;/p&gt;
+
+&lt;p&gt;For the sake of convenience, here are navigational links to the individual
+sections:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;#p1&quot;&gt;Professionals First&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p2&quot;&gt;Diversify Experience&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p3&quot;&gt;App-pocalypse now: Emphasis at the Extremes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p4&quot;&gt;Make State Mobile! (Again)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p5&quot;&gt;No State Left Behind&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p6&quot;&gt;Privacy Fights Back: Poison The Well&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p7&quot;&gt;The Single User - The U in UNICS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p8&quot;&gt;Silent Defaults, No Surprises&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p9&quot;&gt;Interactive At First Breath&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p10&quot;&gt;Everything Immediately Observable&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p11&quot;&gt;Defer Composition&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#p12&quot;&gt;Simplicity Is Systemic&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;backstory-and-motivation&quot;&gt;Backstory and Motivation&lt;/h2&gt;
+
+&lt;p&gt;The Arcan project, at its core, is rooted in assumption that the ‘desktop’ way
+of interfacing with computing is inching towards its last of breaths, and
+rewriting X11 or JSONifying STDOUT won’t provide much more air than for a final
+gasp.&lt;/p&gt;
+
+&lt;p&gt;The upside is that this may well turn out to be something positive that
+provides opportunity for radical simplification and restructuring of the myriad
+of technologies that make out the Rube Goldbergian contraption that is the ‘modern’
+desktop.&lt;/p&gt;
+
+&lt;p&gt;The first non-academic presentation (&lt;a href=&quot;https://youtube.com/watch?v=07nqZIFRDJg&quot;&gt;video&lt;/a&gt;)
+on the Arcan project had a terse, technical-overview style to it, with very little
+in terms of motivation or actual intended direction.&lt;/p&gt;
+
+&lt;p&gt;The reason for that was that I wanted to keep the attention and focus on “what it is”
+rather than “what will it ever be used for”, and carefully note who tries to fill
+in the cryptic blank spaces, and with what. This was predicated on the belief
+that honest dissemination is done by first demonstrating the feasibility and
+soundness of the fundamentals of the tech in isolation; flowery visions,
+soap-boxing and sociopolitical annotation are best left deferred to separate
+stages should the underlying tech be sufficiently coherent and robust.&lt;/p&gt;
+
+&lt;p&gt;It is not, however, some vacuous perspective of the technology as living a life
+disjunct from the social consequences of its application, but having that as
+the goto default mental model for any fledgling utterances is as much of a
+fool’s errand as thinking that it should never be viewed through the optics of
+an abstract larger social organism.&lt;/p&gt;
+
+&lt;p&gt;The basic motivation for &lt;em&gt;all&lt;/em&gt; of this is as follows:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I am of humble needs and wants: I want to expand my agency, security, safety and quality of experience in regards to all things that computing touch. The largest obstacle to that expansion, right now, is the chaos and complexity of user-space, the dependency creep towards an online ‘service-space’, the peering eyes this ‘service space’ uses to study and repackage some naive interpretation of ‘you’, and how this service space is being used to mutate social- and critical- infrastructure towards something wholly frightening.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;On a personal level, I have coded and experimented with virtually everything
+computing since the days of the venerable C-64 (divide it by two, flip it over,
+that’s 23) – viruses, anti-viruses; drm protections, cracks; database
+engines; operating system kernels; cheats, bots and anti-cheats; emulators
+(both interpreter dance and JITterbug); demos; games; parsers for more
+formats than I can remember; exploits as well as mitigations. I have worked in
+academia, government, military-industrial, fortune-500 as well as fledgling
+startups, and got the scars and theses to prove it. The ‘left to observe’ list
+has grown rather short over the years.&lt;/p&gt;
+
+&lt;p&gt;During this time, the evolution of the capabilities of the devices themselves
+have exceeded all expectactions and is nothing short of spectacular. The
+hardware and software lockout which plagued the early days is, relatively
+speaking, minor; access to both capable devices and deep technical information
+has become absolutely stellar, overwhelmingly so. The days of begging companies
+for scraps of hardware; scraping public libraries and dumpsters for slices of
+information; for quid-pro-quo trading of hacker ‘secrets’ and basic software
+building blocks (‘warez’) are mostly faint memories. Hopefully they will remain
+as such in spite of troubling signs up ahead.&lt;/p&gt;
+
+&lt;p&gt;The counterweight to this positive development is that things have become complex
+to the degree that a thorough and deep understanding, &lt;em&gt;preconditions&lt;/em&gt; to responsible
+control and agency, is a hard thing to come by, and an even harder thing to fight
+for. Just add more dependencies and layers! Get it to market! Cash out! Build a
+community! Become its figurehead! Sell the community! Pass the plate! Don’t forget
+to Like Comment and Subscribe! Oh and this message was sponsored by yet another
+pointless VPN from a provider you can’t trust but somehow protects you from a
+network you don’t trust. With such words the once so tiny tech snowball continues
+its merry way down the mountain towards the village.&lt;/p&gt;
+
+&lt;p&gt;No matter the outcome, I have more things on the immediate ‘todo’ in terms of
+creative things alone – than I have hours left to live, regardless of how many
+those turn out to be. That is a pleasant mental image to fall back on in times of
+gloom and doom.&lt;/p&gt;
+
+&lt;p&gt;My dedication to this project and the tens of thousands of invested hours has
+been described as both ‘a labour of love’ as well as the more colloquial
+‘fucking insane’, though personally, I view it as an act of necessity.&lt;/p&gt;
+
+&lt;p&gt;Many a times the journey has felt like digging out of a prison using the
+collarbone of a fallen mate as a makeshift shovel, fuelled by the vapours of
+some faint hope that there is a relatively more free world waiting within
+reach, and that the proverbial roses I can smell are not just a hallucinogenic
+side effect from some invisible gas deposit that this old canary has stumbled
+upon.&lt;/p&gt;
+
+&lt;p&gt;The motivation is not all some evolutionary struggle for freedom. The rest
+comes from bitter anger, even resentment, towards the dominant status quo and
+the trajectory that computing interfaces as a whole is moving along; pandering
+to trivial attention grabbing nonsense (‘engagement’) rather than crafting
+sharper tools that can claw at the delicious problems that the future holds in
+store.&lt;/p&gt;
+
+&lt;h2 id=&quot;principle-1-professionals-first&quot;&gt;Principle 1: Professionals First&lt;/h2&gt;
+&lt;p&gt;&lt;a name=&quot;p1&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The traditional desktop is a compromise of interests, with the more recent bias
+being towards appealing to a supposed ‘mainstream’ audience. This made sense
+from an economical growth standpoint within the kinetics of the peculiar brand
+of capitalism at the time; the previous demographic was already hooked on the
+computing drug - being ‘users’ after all.&lt;/p&gt;
+
+&lt;p&gt;The thing nowadays is that the load-bearing mainstream audience is opting out at
+a rapid rate and for good reason; smartphones, tablets, digital ‘assistants’,
+gaming consoles and so on are all chopping up the generic ‘desktop’ into more
+controlled corporate thiefdoms.&lt;/p&gt;
+
+&lt;p&gt;Many of the past compromises that were made in order to accomodate this wider
+and less experienced audience are also unnecessarily restricting agency,
+precision and and efficiency for those (‘the professional’) who possess both a
+stronger mental model of computing, and a vested interest in its advancement.&lt;/p&gt;
+
+&lt;p&gt;It makes little sense to try and convince your grandmother that she needs a
+Free! Open-Source! desktop, and it is a farce, bordering on self-harm, to still
+use that scenario as part of some requirement specification for the future.&lt;/p&gt;
+
+&lt;p&gt;That aside, the ‘professional’ here is not meant as a vain appeal to exclusionary
+hacker elitism – before the numbers of those within such lines dip towards that
+of past ‘biker freedom’ seekers such as radio ‘amateurs’, circuit benders and
+BBS operators. The ‘professional’ is acknowledging that there is a large number
+(millions) of key individuals in a wide gamut of professions that are currenty
+wasting much of their time and talents thanks to misguided attempts at software
+ergonomics that will try and make due with what the web can give them, but they
+should not have to.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Revisit past workflows, put the professional first.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p2&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-2-diversify-experience&quot;&gt;Principle 2: Diversify Experience&lt;/h2&gt;
+
+&lt;p&gt;A long standing maxim in computing is that of ‘mechanism, not policy’. From
+a user experience perspective, it is rooted in the assumption that the user
+is both willing- and capable- of leveraging mechanisms and configure them into
+their own sets of policies. This has largely failed in the ‘desktop’ sense,
+and very much stagnated in the command-line processing one.&lt;/p&gt;
+
+&lt;p&gt;There are many possible reasons for this, and one likely culprit on a high
+level is the marketing gospel of ‘it just works’. This is a rhetoric which
+strongly favours a ‘brand identity’ preset of strict policies and aesthetics
+at the desktop level and beyond. Its implementation allows for little to no
+accessible layering in between the opaqueness of a UI element such as a
+‘button’ and the set of actions the idea of it ‘working’ represents.&lt;/p&gt;
+
+&lt;p&gt;This turns into a problem when your personal expectations of what ‘just works’
+happens to clash with those of the dominant actor(s). Voicing such complaints
+is often met with a dismissive and arrogant attitude akin to ‘get with the
+program’, marginalising disabled users further; whether that ‘disability’ is a
+lack of mobility, reduced cognitive functions or a complex threat model.&lt;/p&gt;
+
+&lt;p&gt;In that sense, an alternate take is that the tool should allow you to,
+pardon the language, ‘get shit done’.&lt;/p&gt;
+
+&lt;p&gt;*To remedy this is to improve accessibility. Make every architected layer
+user-scriptable, with access to fine grained mechanisms to chose from –
+More Mechanisms to the People!&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p3&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-3-app-pocalypse-now-emphasis-at-the-extremes&quot;&gt;Principle 3: App-pocalypse now: Emphasis at the Extremes&lt;/h2&gt;
+
+&lt;p&gt;The ‘smartphone’ in its ‘absorbing the gamut of features from feature phones’
+phase, got a few things right. One such thing &lt;em&gt;was&lt;/em&gt; the notion of an ‘app’;
+a simple, small, tool solving one specific task. At the same time, these
+apps failed to play well with others (lack of interoperability) and, as an
+effect, were hard to recombine in order to provide new functionality (lack
+of composability). In broad strokes, the ecosystem devolved into providing
+users to a service, rather than the other way around.&lt;/p&gt;
+
+&lt;p&gt;On the desktop side, the user interfaces mainly come in three flavours. The
+first one is that of the ‘software as its own sealed world’: hard hitting
+complex tools, best modelled as a machine inside the machine (a VM by any other
+name will smell just as rancid), with the web browser as one of its front
+runners. These are practically unavoidable, lest you are willing to tolerate a
+very ascetic lifestyle.&lt;/p&gt;
+
+&lt;p&gt;The second one is at the other extreme of the complexity spectrum, and that is
+the relatively modest pipes and filters text oriented processing tools like
+‘awk’ and ‘grep’ as well as some of the more interactive textural user
+interfaces (TUIs) through its subset of command-line interfaces (CLIs). These
+are much limited by their form of legacy, reasoning in terms of serial lines
+and character graphics terminals.&lt;/p&gt;
+
+&lt;p&gt;The last flavour covers the no-man’s land of everything in between, the
+multi-million lines of UI toolkits. They come with much of the complexity of
+the VMs and about as much barren legacy as the terminals.&lt;/p&gt;
+
+&lt;p&gt;There is not a hard border between these rough categories. The browser lifts in
+some of the toolkits in the OS integration, then re-implements much of it with
+different verbiage. The TUIs lift some of the widgetry through their literally
+curs(es)ed abstractions in search of shelter from the blast from the past that is
+terminal protocols.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Improve data exchange with the VM, re-discover the desktop ‘app’ by making the
+text-dominant command line tools capable of processing and providing ‘media
+rich’ data streams and release them from the legacy of terminal protocols and
+their emulators. Leave the toolkits to rot in peace.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p4&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-4-make-state-mobile-again&quot;&gt;Principle 4: Make State Mobile (Again)&lt;/h2&gt;
+
+&lt;p&gt;In the days stretching from the now faded glory of mainly using mainframes, all
+up until – at least – the peak rosy years of Java under the SUN, one of the
+dominant corporate IT fever dreams was that of the default ‘virtualised’
+desktop.&lt;/p&gt;
+
+&lt;p&gt;System administrators salivated over the prospect of not having to re-install
+someone’s era-adjusted equivalent of internet explorer toolbar farm and
+bonzi-buddy ridden workstations. They hoped to never again listen to the
+wailing tune of the desktop no longer feeling ‘right’ after AV cleanup. They
+dreamt of not having to explain data loss from work not being commited to the
+shared state pool as the almighty red reset button was irreversibly pushed with
+a vengeance.&lt;/p&gt;
+
+&lt;p&gt;A number of things have changed between then and now, not the least being our
+ability to store, transfer and compress data with high efficiency and low
+latency; both for the clouded internet as well as for personal area networks.
+Thus, having a replicated base install with the user computing tasks and state
+itself being mobile makes sense for the near future, and the tooling to define
+and deploy such a base is plentiful.&lt;/p&gt;
+
+&lt;p&gt;To make things slightly easier, we won’t dip into a thorough definition of what
+constitutes computing state. Instead we stop at a vague ‘what you, yourself,
+contributed to a program in execution’, and emphasise that it is not simply
+‘data’.&lt;/p&gt;
+
+&lt;p&gt;State being largely immobile is a problem shared with the past. Various efforts
+of ‘serialisation’ has tried to work with this, as recent as the Parcelables of
+Android - to little or no avail, as simply defining mechanisms is not enough,
+verification and enforcement need to be there from the start or it will be hard
+to impossible to catch up.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;All applications need to expose non-interactive run-time seed- and delta-
+state store/wipe/restore controls that gets periodically verified and
+validated. Failure to comply means removal of privileges. Repeated failure
+means revocation of trust.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p5&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-5-no-state-left-behind&quot;&gt;Principle 5: No state left behind&lt;/h2&gt;
+
+&lt;p&gt;While state mobility from &lt;em&gt;Principle 4&lt;/em&gt; improve user agency, there is another
+side to device state management, and that is local, persistent or ephemeral
+storage. Anyone experimenting with the delicious pairing of data recovery and
+second-hand “e-bay” device forensics will quickly learn at least two valuable
+lessons.&lt;/p&gt;
+
+&lt;p&gt;The first lesson is on how rare correctly applied full disk encryption
+practices actually are, even in light of so called trusted enclaves and double
+digit amount of standards that reduce to ‘encrypt and wipe’. The second lesson
+is how much sensitive state manages to survive beyond the context of its
+intended use.&lt;/p&gt;
+
+&lt;p&gt;The EU has some amicable priniciples encoded as ‘the right to be forgotten’,
+but on the technical side there should be a correlated mandate as ‘the default
+is forget’. As long as you can be punished for not keeping detailed tracks of
+innocuous deeds, the system will err on the side of remembrance.&lt;/p&gt;
+
+&lt;p&gt;Equally disturbing is the runtime state of long living processes with ties to
+the online world; slowly accumulating sensitive credentials and privacy
+compromising nuggets scattered all over; ready to be accidentally- exposed
+through crash dumps, swap files and forgotten inter-process communication lanes;
+ready to be intentionally picked up by the offensively minded creatures that
+dare to look beyond “remote code execution”.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Persistent state stores should not be some assumed default, but rather require
+interactive/user-initiated automation. Lifespace should be coupled to
+namespace.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p6&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-6-privacy-fights-back-poison-the-well&quot;&gt;Principle 6: Privacy Fights Back: Poison the Well&lt;/h2&gt;
+
+&lt;p&gt;The very idea that the software you depend on is acting in your best of interests
+is completely defunct. This is made manifest by the metamorphosis of the ‘web
+browser’ which nowadays does much darker and sinister things than just browse.
+By now, this behemoth has managed to neatly attach itself as a ‘Man in the
+Middle’ to nearly every relevant data flow between you and the rest of digital
+society and government.&lt;/p&gt;
+
+&lt;p&gt;To ‘opt out’ by deleting past sins or inactivating an account is, at best, a
+counter productive act of teenage rebellion. At worst, you actually provide
+another strong data point that act as an easy sharp edge to use as you are
+repeatedly repackaged into nice and clean bundles of data. The very same
+bundles that information parasites will digest as their daily bread and
+re-inject into your service consumption as part of the feedback loops that act
+as the core to this manipulation machinery.&lt;/p&gt;
+
+&lt;p&gt;This is now at a stage where the digital age equivalent of the old social
+construct of ‘a white lie’ is sorely needed, en masse, at web scale. Can we
+adapt by gradually diluting the truth and value of our digitally recorded past
+and future to the point that the price of actually knowing what you had for
+breakfast is on the level of rigourous science?&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;An application does not get to disturb you by ‘asking for permission’ just to
+steal data from a sensor – it always gets some kind of data. You decide,
+dynamically, which sensor that is actually sampled and what that entails.
+Access the ‘camera’ does not automatically imply sampling the actual device, it
+means being routed a video stream. The user decide what that stream covers and
+when.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p7&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-7-the-single-user---the-u-in-unics&quot;&gt;Principle 7: The Single User - The U in UNICS&lt;/h2&gt;
+
+&lt;p&gt;Of all the legacy pieces in the chain going from boot to an actually usable
+desktop, the one that takes the biggest toll in terms of wasted opportunity and
+inane complexity is that of ‘multi-user’ as the outer default. There is a
+slight hint of irony to this in that a key simplification to good ol’ UNIX when
+compared to even older Multics was found in stripping away much of the complex
+device sharing semantics.&lt;/p&gt;
+
+&lt;p&gt;The actual role of a ‘user’ (as in account) in a world where computing devices
+come cheap and greatly outnumber us, is as a safety and system management
+compartment, and not as flesh and bone actually using- and sharing- the same
+device.&lt;/p&gt;
+
+&lt;p&gt;While the ‘login screen’ at the ‘getty’ or worse, ‘display manager’, level,
+may seem harmless at first glance, when you unravel and untangle just how much
+this decision poisons the rest of system design it becomes clearer that the
+legacy had us not only build the pyramid upside down, but to think of that as
+the rational thing to do - and it is anything but.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Authenticate against the device, not a dynamic ‘user’. Then, allow safe,
+ephemeral, secure sharing of the smallest, innermost compartment or an
+interactively defined aggregation thereof. This compartment is ‘the window’,
+not ‘the desktop’.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p8&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-8-silent-defaults-no-surprises&quot;&gt;Principle 8: Silent Defaults, No Surprises&lt;/h2&gt;
+
+&lt;p&gt;One of the seminal targeted attacks during the time when desktop security lost
+some of its adorable innocence, is that of the ‘autorun.inf’.&lt;/p&gt;
+
+&lt;p&gt;The story goes that an unsuspecting target inserts a floppy diskette, cd-rom,
+usb-stick or other modern-day equivalent, and a surreptitious payload takes
+advantage of some automated system response in order to gain persistance and
+exfiltrate- or tamper with- data. This is an attack vector that, albeit crude,
+has brought down companies as well as families and military facilities alike.
+There are many subtle and not so subtle variations of the tactic, prepackaged
+with cute names such as ‘USB SwitchBlade’ and ‘RubberDucky’.&lt;/p&gt;
+
+&lt;p&gt;The core of the matter is the opaque and unpredictable ‘opt-out’ nature of the
+automated system responses to user initiated actions, no matter if it is
+plugging in a USB device, a network cable or downloading a file. You only see
+the fire after you feel the burns.&lt;/p&gt;
+
+&lt;p&gt;As a thought exercise: take a sleeping laptop. Lid closed, suspended and
+hopefully idle. Can you explain, at even a high level, of what the thing will
+do, and what it will try to communicate to the outside when you next open the
+lid? If not, what is obscuring your view? do you even have the means to find
+out or is that a literal Pandora’s box in your lap?&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;DO NOT make assumptions as to the users’ intentions in the name of simplicity
+or user friendliness. DO provide easy access to controls with trivial means for
+defining automation with limited scope that are not just opt-in, but user
+initated.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p9&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-9-interactive-at-first-breath&quot;&gt;Principle 9: Interactive at First Breath&lt;/h2&gt;
+
+&lt;p&gt;Computer hardware is a very dynamic beast, and, barring few examples, will
+remain as such. Few- to none- of the input- output- or storage- devices that
+are at your disposal can actually be assumed to be necessary, present or even
+usable, at system init.&lt;/p&gt;
+
+&lt;p&gt;There is no longer any strong reason or justification for deferring user
+interface launch until after disks have been mounted and checked for errors;
+after network interfaces have been configured and so on. Heck, even BIOS config
+screens has animations and drop shadow cursors these days (not saying those
+things belong there). Boot animations and ‘splash screens’ are in that sense
+nothing more than an illusionist’s cheap distract from the fact that this could
+be you doing actual things right now instead of later.&lt;/p&gt;
+
+&lt;p&gt;The previous barriers to simply booting into the user interface immediately
+are all but gone, and forcing the user to stare into a splash screen or a
+stream of fast scrolling text by the init system mutated into service manager,
+when the real interface could have been there from the start is quite simply an
+act of negligence.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The desktop is not a server and should not be bootstrapped as one. Boot into
+the user interface. Let dynamic system services and their controls become part
+of the user interface on activation or discovery.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p10&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-10-everything-immediately-observerable&quot;&gt;Principle 10: Everything Immediately Observerable&lt;/h2&gt;
+
+&lt;p&gt;Even software developers are slowly but steadily realising that hardware has
+been lying to us this whole time. The revelation comes partly thanks to a
+steady stream of publicised timing channel related attacks, even though the
+evidence of this has been in writing for a very long time - the calm before the
+TEMPEST, so to speak.&lt;/p&gt;
+
+&lt;p&gt;A guess as to why this has taken the time that it has, would be to blame some
+combination of domain-inherited opaqueness and individual willingness to assume
+whatever layer that is beneath the one we are currently working on is just
+fine, and in little need of scrutiny.&lt;/p&gt;
+
+&lt;p&gt;This is actually an ongoing process, we have collectively been more than happy
+to pile on layers of layers of abstraction, with little to no conditions that
+regulate the interaction between these layers and no mandate of exposing
+alternate views that would provide some insight into internal processes.&lt;/p&gt;
+
+&lt;p&gt;Over time, this has lead to a scattered mess when it comes to tooling for
+‘tracing’ and ‘debugging’ across these layers. While being able to immediately
+freeze and study the state of the circuitry buzzing beneath us is well out of
+reach still, we can, and must evolve beyond piping &lt;em&gt;stderr&lt;/em&gt; to a file.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Whenever possible, strip away unnecessary layers of run-time abstraction
+(virtualisation). Whenever this is impossible or inadvisable, forcilby expose
+controls for monitoring, observing and tampering with the data that flows
+across these layers.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p11&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-11-defer-composition&quot;&gt;Principle 11: Defer Composition&lt;/h2&gt;
+
+&lt;p&gt;From the perspective of user interfaces, composition is the act of stitching
+multiple, interactive, data sources together into the larger UI quilt. This is
+a transformation that can be expensive-, lossy- or even impossible- to reverse,
+much akin to separating mixed colours out into that of its primary components.&lt;/p&gt;
+
+&lt;p&gt;Why is it, for instance, that an embedded video player on a website somewhere
+cannot simply be ripped out of the browser window and be put into a separate
+window without the browser explicity implementing that feature? that the
+playback control buttons in the sample player cannot similarly be separated
+from the actual video? The answer is ‘premature composition’.&lt;/p&gt;
+
+&lt;p&gt;Instead of delegating the task to the proper authority, which is the window
+manager and its policies of your choosing, the browser took it upon itself to
+force composition. Then the embedded video player took it upon itself to force
+composition, and so on ad nauseam. This did not happen without some
+justification, the system interfaces that the browser had to work with did not
+provide means for anything more refined, but then the fix should start there.&lt;/p&gt;
+
+&lt;p&gt;Premature composition reduces your options of what to do with the data, it
+costs on performance, it forces the browser to re-implement basic window
+management controls and input device bendings that will clash with the ones you
+have outside of it, and why every issue tracker for a popular user facing tool
+will have, or have complied to, requests for adding support for tabs.&lt;/p&gt;
+
+&lt;p&gt;Your terminal emulator is doing much the same thing, as is your CLI shell and
+possibly the text editor running inside of that - vimcarcerated, so to speak.
+This is why the popup with suggested text completion emulates a window using
+text rather than actually being a real one.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Defer window management to the outermost layer, the window manager, whenever
+possible and do not nest composition but strive to retain native data
+representation. Whenever this is unreasonable or even impossible, mandate
+user-initiated decomposition controls.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;p12&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;principle-12-simplicity-is-systemic&quot;&gt;Principle 12: Simplicity is Systemic&lt;/h2&gt;
+
+&lt;p&gt;A rhetorical scheme that works surprisingly often in computing is a rallying
+cry for making things ‘simple’ – how can you ever chose complexity over
+simplicity, right?&lt;/p&gt;
+
+&lt;p&gt;Ignoring the bits about how complicated it is to draft and defend a
+philosophically coherent definition of simplicity itself (ontic and epistemic),
+an important aspect is that of a possible local ‘for a component’ perfect
+simple solution can be ‘for the system’, a complex one – and vice versa.&lt;/p&gt;
+
+&lt;p&gt;The problem becomes less muddled, but not by much, when you contrast the
+variations between a developer’s idea of how something they develop would be
+used in other people’s hands, and the harsh realisation from observing how it
+actually gets put into good use.&lt;/p&gt;
+
+&lt;p&gt;The story follows that some of these practices eventually gets pressured to be
+packaged as a preset into the product. An enterprising competitor points out
+these practices, omitting context and history, with some quip about how
+needlessly complex things are and something like ‘I only need this therefore
+these other bits contribute nothing and are, infact, useless bloat’ – is sure
+to follow.&lt;/p&gt;
+
+&lt;p&gt;This is &lt;em&gt;simplicity as narcissism&lt;/em&gt;. Apply some basic group think that comes
+rather naturally in larger engineering endeavours with lax incentive structures
+and you get &lt;em&gt;simplicity as thiefdoms&lt;/em&gt;, sundering the global effort.&lt;/p&gt;
+
+&lt;p&gt;The takeaway is that you need the circumference of the vested interests of
+relevant stakeholds to successfully find the simpler solution to a given
+problem, and to avoid the ‘simpler than as simple as possible’ ones. This is
+hard when the scope is as something as dynamic and broad across the hips as
+‘the desktop’.&lt;/p&gt;
+
+&lt;p&gt;A thought exercise that won’t get its answer here, but has a very real
+foundation: consider the decomposition of ‘desktop’ into an audio server, a
+video server, an input/sensor server, a metadata manager – Is it a reasonable
+breakdown of things? Should the different components be developed as separate
+things by separate teams? If so, which mechanisms will tie them together into
+the end product or service?&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Base design choices and score complexity from the angle of the system to
+deliver and not the shallow appearance of its base components.&lt;/em&gt;&lt;/p&gt;</content><author><name>Bjorn Stahl</name></author><summary type="html">This post is an overview of the guiding principles driving much of the work behind the main parts of the Arcan Project. For those unaware, Arcan is presented as something as uncommon as a ‘desktop engine’. The grand claim is that modifying and understanding the entirety of your desktop should be ‘patching scripts’ level easy if we rework current popular abstractions and adjust the division of labour.</summary></entry></feed>
